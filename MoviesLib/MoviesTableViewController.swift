@@ -23,6 +23,12 @@ class MoviesTableViewController: UITableViewController {
         label.text = "Sem filmes"
         label.textAlignment = .center
         label.textColor = .white
+        
+        loadMovies()
+    }
+    
+    func loadMovies(){
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
