@@ -39,21 +39,20 @@ class MovieRegisterViewController: UIViewController {
         
             movie = Movie(context: context)
             
-            movie.title = tfTitle.text
-            movie.rating = Double(tfRating.text!)!
-            movie.summary = tfSummary.text
-            movie.duration = tfDuration.text
-            
-            do{
-                try context.save()
-                
-            }catch{
-                print(error.localizedDescription)
-            }
-            close(nil)
-            
-            
         }
+        
+        movie.title = tfTitle.text
+        movie.rating = Double(tfRating.text!)!
+        movie.summary = tfSummary.text
+        movie.duration = tfDuration.text
+        
+        do{
+            try context.save()
+            
+        }catch{
+            print(error.localizedDescription)
+        }
+        close(nil)
     
     }
     
@@ -66,7 +65,17 @@ class MovieRegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        if movie != nil {
+            tfTitle.text = movie.title
+            tfRating.text = "\(movie.rating)"
+            tfDuration.text = movie.duration
+            tfSummary.text = movie.summary
+            btAddUpdate.setTitle("Atualizar", for: .normal)
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
