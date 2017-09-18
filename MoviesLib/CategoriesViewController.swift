@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import CoreData
+
+enum CategoryAlertType{
+    case add,edit
+}
 
 class CategoriesViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    var dataSource: [Category] = []
+    var movie: Movie!
     
     @IBAction func add(_ sender: UIBarButtonItem) {
     }
@@ -21,11 +28,28 @@ class CategoriesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        tableView.delegate = self
+        tableView.dataSource = self
+        loadCategories()
     }
-
     
- 
+    func loadCategories(){
+        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "name",ascending:true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        do{
+            dataSource = try context.fetch(fetchRequest)
+            tableView.reloadData()
+        }catch{
+            print(error.localizedDescription)
+        }
+        
+    }
+}
+extension CategoriesViewController : UITableViewDelegate{
+    
+}
 
+extension CategoriesViewController : UITableViewDataSource{
+    
 }
