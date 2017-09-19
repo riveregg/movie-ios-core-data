@@ -33,7 +33,7 @@ class CategoriesViewController: UIViewController {
             let category = category ?? Category(context: self.context)
             category.name = alert.textFields?.first?.text
             try! self.context.save()
-            self.tableView.reloadData()
+            self.loadCategories()
         }))
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
         present(alert,animated: true, completion: nil)

@@ -27,9 +27,11 @@ class MovieRegisterViewController: UIViewController {
     
     @IBAction func close(_ sender: UIButton?) {
         
+        if movie != nil && movie.title == nil{
+            context.delete(movie)
+        }
+        
         dismiss(animated: true, completion: nil)
-        
-        
     }
     
     
@@ -89,11 +91,19 @@ class MovieRegisterViewController: UIViewController {
         if movie != nil{
             if let categories = movie.categories{
                 
-                let names = categories.map({($0 as! Category).name!})
-                let formattedCategories: String = names.joined(separator: " | ")
-                lbCategories.text = formattedCategories
+                //let names = categories.map({($0 as! Category).name!})
+                //let formattedCategories: String = names.joined(separator: " | ")
+                lbCategories.text = categories.map({($0 as! Category).name!}).joined(separator:" | ")
             }
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! CategoriesViewController
+        if movie == nil{
+            movie = Movie(context: context)
+        }
+        vc.movie = movie
     }
 
 }
