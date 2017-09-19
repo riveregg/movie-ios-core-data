@@ -34,6 +34,40 @@ class MovieRegisterViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func addPoster(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Selecionar poster", message: "De onde voce quer escolher o poster", preferredStyle: .actionSheet)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: { (actions) in
+                self.selectPicture(sourceType: .camera)
+            })
+            alert.addAction(cameraAction)
+        }
+        
+        
+        let libraryAction = UIAlertAction(title: "Biblioteca de fotos", style: .default, handler: { (actions) in
+            self.selectPicture(sourceType: .photoLibrary)
+        })
+        alert.addAction(libraryAction)
+        
+        let photosAlbum = UIAlertAction(title: "Album de fotos", style: .default, handler: { (actions) in
+            self.selectPicture(sourceType: .savedPhotosAlbum)
+        })
+        alert.addAction(photosAlbum)
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .default, handler:nil)
+        alert.addAction(cancelAction)
+        
+        present(alert,animated: true, completion: nil)
+        
+    }
+    
+    func selectPicture(sourceType: UIImagePickerControllerSourceType){
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        imagePicker.delegate = self
+        present(imagePicker,animated: true,completion: nil)
+    }
     
     @IBAction func addUpdateMovie(_ sender: UIButton) {
     
@@ -56,6 +90,7 @@ class MovieRegisterViewController: UIViewController {
         }
         close(nil)
     
+        
     }
     
     
@@ -103,4 +138,13 @@ class MovieRegisterViewController: UIViewController {
         vc.movie = movie
     }
 
+}
+
+extension MovieRegisterViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage,editingInfo: [String: AnyObject]?) {
+        ivPoster.image = image
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
 }
