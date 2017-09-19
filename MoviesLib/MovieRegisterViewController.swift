@@ -85,16 +85,13 @@ class MovieRegisterViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         if movie != nil{
-            if let categories = movie.categories{
-                
                 //let names = categories.map({($0 as! Category).name!})
                 //let formattedCategories: String = names.joined(separator: " | ")
-                lbCategories.text = categories.map({($0 as! Category).name!}).joined(separator:" | ")
-            }
+                lbCategories.text = movie.categoriesLabel            
         }
     }
     

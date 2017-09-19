@@ -89,6 +89,7 @@ class MoviesTableViewController: UITableViewController {
         cell.lbSummary.text = movie.summary
         cell.lbRating.text = "\(movie.rating)"
         
+        
         return cell
     }
 

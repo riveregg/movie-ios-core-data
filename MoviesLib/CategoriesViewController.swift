@@ -81,8 +81,26 @@ extension CategoriesViewController : UITableViewDelegate{
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
-        
     }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Excluir") { (action, indexPath) in
+            let category = self.dataSource[indexPath.row]
+            self.context.delete(category)
+            try! self.context.save()
+            self.dataSource.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        let editAction = UITableViewRowAction(style: .normal, title: "Editar") { (action, indexPath) in
+            let category = self.dataSource[indexPath.row]
+            tableView.setEditing(false, animated: true)
+            self.showAlert(type: .edit, category: category)
+        }
+        editAction.backgroundColor = .blue
+        
+        return [editAction,deleteAction]
+    }
+    
 }
 
 extension CategoriesViewController : UITableViewDataSource{
